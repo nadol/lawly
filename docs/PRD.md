@@ -104,7 +104,6 @@ System self-service, który pozwoli zespołowi sprzedażowemu samodzielnie przej
 - Frontend agreguje wybrane odpowiedzi i pobiera przypisane fragmenty
 - Zapis sesji do bazy danych z wszystkimi odpowiedziami i wygenerowanymi fragmentami
 - Ustawienie completed_at timestamp
-- Utworzenie eventu session_complete
 
 3.3.3 Prezentacja fragmentów
 - Wszystkie fragmenty wyświetlone w jednym textarea (plain text)
@@ -164,15 +163,8 @@ sessions
 - answers: jsonb (tablica obiektów: [{question_id, answer_id}])
 - generated_fragments: text[] (tablica tekstów)
 
-events
-- id: uuid (primary key)
-- session_id: uuid (foreign key -> sessions.id)
-- event_type: text ('session_start' | 'session_complete')
-- created_at: timestamp
-
 3.5.2 Row Level Security (RLS)
 - Użytkownik ma dostęp tylko do własnych sesji (sessions.user_id = auth.uid())
-- Użytkownik ma dostęp tylko do własnych eventów (poprzez relację session_id)
 - Wszyscy użytkownicy mają read-only dostęp do tabeli questions
 
 3.5.3 Zarządzanie pytaniami i szablonami
@@ -180,30 +172,18 @@ events
 - Brak admin panelu w MVP
 - Struktura JSON w kolumnie options umożliwia łatwe dodawanie i edycję
 
-### 3.6 Tracking i metryki
+### 3.6 Obsługa błędów
 
-3.6.1 Eventy sesji
-- session_start: zapisywany przy rozpoczęciu sesji (pierwsze pytanie)
-- session_complete: zapisywany przy wygenerowaniu fragmentów
-- Każdy event zawiera session_id i timestamp
-
-3.6.2 Raportowanie
-- Ręczne zapytania SQL do bazy Supabase
-- Calculation completion rate: (liczba session_complete / liczba session_start) × 100%
-- Brak zautomatyzowanego dashboardu w MVP
-
-### 3.7 Obsługa błędów
-
-3.7.1 Problemy z połączeniem
+3.6.1 Problemy z połączeniem
 - Prosty error screen z komunikatem: "Nie można połączyć z serwerem. Spróbuj ponownie później."
 - Przycisk "Odśwież stronę"
 - Wyświetlany przy błędach Supabase (network errors, timeouts)
 
-3.7.2 Błędy walidacji
+3.6.2 Błędy walidacji
 - Disabled state przycisków przy braku wybranej odpowiedzi
 - Brak możliwości przejścia dalej bez wyboru odpowiedzi
 
-3.7.3 Monitoring
+3.6.3 Monitoring
 - Basic monitoring przez Vercel Analytics i Supabase
 - Logi aplikacji dostępne w Vercel Dashboard
 - Logi bazy danych dostępne w Supabase dashboard
@@ -334,10 +314,9 @@ US-004: Rozpoczęcie nowej sesji generowania fragmentów
 - Opis: Jako członek zespołu sprzedażowego, chcę rozpocząć nową sesję generowania fragmentów SOW, aby przygotować materiały dla konkretnego projektu.
 - Kryteria akceptacji:
   - Na głównym ekranie aplikacji widoczny jest przycisk "Rozpocznij nową sesję"
-  - Kliknięcie przycisku tworzy nowy rekord w tabeli sessions (bez completed_at)
-  - Tworzony jest event session_start w tabeli events z session_id
+  - Kliknięcie przycisku NIE tworzy rekordu w bazie danych (sesja zapisywana dopiero po ukończeniu wszystkich pytań)
+  - W state aplikacji (React) inicjalizowany jest stan nowej sesji (puste odpowiedzi, timestamp rozpoczęcia)
   - Użytkownik jest przekierowywany do pierwszego pytania
-  - W state aplikacji zapisywany jest session_id
   - Wyświetlany jest wskaźnik postępu "Pytanie 1 z 5"
 
 US-005: Wyświetlanie listy sesji
@@ -401,8 +380,7 @@ US-010: Odpowiedź na ostatnie pytanie
   - Po wybraniu odpowiedzi przycisk "Dalej" może mieć zmieniony tekst na "Zakończ"
   - Kliknięcie przycisku zapisuje ostatnią odpowiedź
   - Aplikacja automatycznie generuje fragmenty SOW na podstawie wszystkich odpowiedzi
-  - Tworzony jest event session_complete w bazie danych
-  - Rekord sesji jest aktualizowany (completed_at, answers, generated_fragments)
+  - Rekord sesji jest zapisywany w bazie (completed_at, answers, generated_fragments)
   - Użytkownik jest przekierowywany do ekranu z wygenerowanymi fragmentami
 
 ### 5.4 Zarządzanie sesją w trakcie wypełniania
@@ -416,7 +394,6 @@ US-011: Utrata postępu po zamknięciu przeglądarki
   - Po odświeżeniu strony w trakcie sesji, postęp jest tracony
   - Po zamknięciu i ponownym otwarciu aplikacji, użytkownik zaczyna od nowa
   - Rekord sessions w bazie tworzony tylko po ukończeniu wszystkich pytań
-  - Event session_start zapisywany ale bez powiązanych answers
 
 ### 5.5 Generowanie i wyświetlanie fragmentów
 
@@ -431,7 +408,6 @@ US-012: Automatyczne generowanie fragmentów SOW
     - completed_at ustawiane na aktualny timestamp
     - answers zapisywane jako JSONB z wszystkimi pytaniami i odpowiedziami
     - generated_fragments zapisywane jako tablica tekstów
-  - Event session_complete tworzony w tabeli events z session_id i timestamp
   - Proces generowania jest synchroniczny (użytkownik czeka na zakończenie)
 
 US-014: Wyświetlenie wygenerowanych fragmentów
@@ -570,34 +546,7 @@ US-027: Nieautoryzowany dostęp do sesji innego użytkownika
   - Przekierowanie do strony głównej lub historii
   - Incident logowany dla celów security monitoring
 
-## 6. Metryki sukcesu
-
-### 6.1 Główna metryka produktu
-
-6.1.1 Session Completion Rate
-- Definicja: Procent sesji które zakończyły się wygenerowaniem wszystkich fragmentów SOW
-- Formuła: (liczba eventów session_complete / liczba eventów session_start) × 100%
-- Cel: 75-85% sesji ukończonych
-- Pomiar: Ręczne zapytania SQL do tabeli events
-- Częstotliwość: Tygodniowo po wdrożeniu, później miesięcznie
-
-Przykładowe zapytanie SQL:
-```sql
-WITH stats AS (
-  SELECT
-    COUNT(*) FILTER (WHERE event_type = 'session_start') as started,
-    COUNT(*) FILTER (WHERE event_type = 'session_complete') as completed
-  FROM events
-  WHERE created_at >= '2026-02-01'
-)
-SELECT
-  started,
-  completed,
-  ROUND((completed::numeric / started::numeric) * 100, 2) as completion_rate_percent
-FROM stats;
-```
-
-### 6.2 Definition of Done - MVP
+## 6. Definition of Done - MVP
 
 Aplikacja uznana za ukończoną gdy spełnia następujące kryteria:
 
@@ -626,10 +575,8 @@ Data DoD:
 - [ ] Struktura tabel w PostgreSQL utworzona
 - [ ] Przykładowe 5 pytań z odpowiedziami i fragmentami w bazie
 - [ ] RLS policies aktywne
-- [ ] Tracking events (session_start, session_complete) działa
 
 Documentation DoD:
 - [ ] README z instrukcją uruchomienia lokalnego
 - [ ] Dokumentacja deployment na Vercel (konfiguracja environment variables)
 - [ ] Dokumentacja konfiguracji Google OAuth
-- [ ] Przykładowe zapytania SQL do raportowania

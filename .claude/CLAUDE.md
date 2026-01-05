@@ -41,15 +41,10 @@ The application uses PostgreSQL (Supabase) with the following key tables:
 - `generated_fragments` (text[]): array of SOW fragments
 - Sessions only saved to DB after completion (no auto-save during wizard)
 
-**events**
-- Tracks `session_start` and `session_complete` events
-- Used to calculate completion rate metric (target: 75-85%)
-
 ### Row Level Security (RLS)
 
 Critical security requirement:
 - Users can only access their own sessions: `sessions.user_id = auth.uid()`
-- Users can only access their own events (via session_id relation)
 - All users have read-only access to questions table
 
 ### Application Flow
@@ -59,7 +54,7 @@ Critical security requirement:
 3. **Wizard:** Linear progression through 5 questions (no back button, no conditional logic)
 4. **State management:** Answers stored in React state only (no localStorage, no DB save during wizard)
 5. **Fragment generation:** Automatic after answering question 5 → 1:1 mapping answer→fragment
-6. **Session save:** Only after completion with `completed_at` timestamp and `session_complete` event
+6. **Session save:** Only after completion with `completed_at` timestamp
 7. **History:** List of completed sessions with timestamp, view-only (no edit/delete/resume)
 
 ### Key Design Decisions
@@ -109,12 +104,6 @@ docs: update deployment instructions
 
 See `.claude/rules/commit-convention.md` for full specification.
 
-## Success Metrics
-
-**Primary KPI:** Session Completion Rate = (session_complete events / session_start events) × 100%
-- **Target:** 75-85%
-- **Measurement:** Manual SQL queries to events table (weekly post-launch, then monthly)
-
 ## Definition of Done (MVP)
 
 Technical:
@@ -134,7 +123,6 @@ Data:
 - Database schema created with all tables
 - 5 sample questions with answers and fragments seeded
 - RLS policies active
-- Event tracking functional
 
 ## Development Notes
 
@@ -164,7 +152,7 @@ Simple error screens with user-friendly messages:
 - Vercel Analytics for basic performance tracking
 - Vercel Dashboard for application logs
 - Supabase Dashboard for database logs and monitoring
-- Manual SQL queries for completion rate calculation
+- Manual SQL queries for basic data analysis
 
 ### Testing Strategy
 

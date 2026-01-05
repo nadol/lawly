@@ -203,7 +203,6 @@ npm run preview
 **Data & Security**
 - PostgreSQL database via Supabase
 - Row Level Security (RLS) for user isolation
-- Event tracking for completion metrics
 - Basic error handling
 
 ### ❌ Not Included in MVP
@@ -251,8 +250,6 @@ npm run preview
 
 **MVP Deadline:** February 1, 2026 (approximately 7 working days)
 
-**Success Metric:** 75-85% session completion rate
-
 ### Definition of Done
 
 The MVP is considered complete when:
@@ -274,7 +271,6 @@ The MVP is considered complete when:
 - ✅ Database schema created
 - ✅ 5 sample questions with answers and fragments seeded
 - ✅ RLS policies active
-- ✅ Event tracking functional
 
 ## Documentation
 
