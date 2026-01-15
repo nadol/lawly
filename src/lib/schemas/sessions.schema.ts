@@ -50,3 +50,17 @@ export const createSessionCommandSchema = z.object({
 });
 
 export type CreateSessionCommandSchema = z.infer<typeof createSessionCommandSchema>;
+
+// =============================================================================
+// GET /api/sessions/[id] schemas
+// =============================================================================
+
+/**
+ * Schema for validating session ID URL parameter.
+ * Used by GET /api/sessions/[id] endpoint.
+ */
+export const sessionIdParamSchema = z.object({
+  id: z.string().uuid({ message: "Invalid session ID format" }),
+});
+
+export type SessionIdParam = z.infer<typeof sessionIdParamSchema>;

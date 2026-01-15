@@ -1,5 +1,10 @@
 import type { SupabaseClient } from "../../db/supabase.client";
-import type { SessionSummary, SessionDetailResponse, QuestionResponse, AnswerItem } from "../../types";
+import type {
+  SessionSummary,
+  SessionDetailResponse,
+  QuestionResponse,
+  AnswerItem,
+} from "../../types";
 
 interface SessionSelectResult {
   id: string;
@@ -165,6 +170,51 @@ export async function createSession(
 
   if (error) {
     throw error;
+  }
+
+  return {
+    id: data.id,
+    user_id: data.user_id,
+    created_at: data.created_at,
+    completed_at: data.completed_at ?? data.created_at,
+    answers: data.answers as AnswerItem[],
+    generated_fragments: data.generated_fragments,
+  };
+}
+
+// =============================================================================
+// GET /api/sessions/[id] functions
+// =============================================================================
+
+/**
+ * Fetches a single session by ID.
+ * RLS ensures the user can only access their own sessions.
+ *
+ * @param supabase - Supabase client instance from context.locals
+ * @param sessionId - UUID of the session to fetch
+ * @returns SessionDetailResponse if found, null otherwise
+ * @throws Error if database query fails
+ */
+export async function getSessionById(
+  supabase: SupabaseClient,
+  sessionId: string
+): Promise<SessionDetailResponse | null> {
+  const { data, error } = await supabase
+    .from("sessions")
+    .select("id, user_id, created_at, completed_at, answers, generated_fragments")
+    .eq("id", sessionId)
+    .single();
+
+  if (error) {
+    // PGRST116 = no rows returned (not an error, just not found)
+    if (error.code === "PGRST116") {
+      return null;
+    }
+    throw error;
+  }
+
+  if (!data) {
+    return null;
   }
 
   return {
