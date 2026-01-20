@@ -1,0 +1,42 @@
+---
+/**
+ * Welcome page for first-time users.
+ * Displays the welcome screen with onboarding information.
+ * Redirects authenticated users who have already seen the welcome to the main app.
+ * Redirects unauthenticated users to the login page.
+ */
+import WelcomeLayout from "../layouts/WelcomeLayout.astro";
+import { WelcomeCard } from "../components/welcome/WelcomeCard";
+
+// Check authentication status
+const {
+  data: { user },
+  error: authError,
+} = await Astro.locals.supabase.auth.getUser();
+
+// Redirect unauthenticated users to login
+if (authError || !user) {
+  return Astro.redirect("/login");
+}
+
+// Check if user has already seen the welcome screen
+const { data: profile, error: profileError } = await Astro.locals.supabase
+  .from("profiles")
+  .select("has_seen_welcome")
+  .eq("user_id", user.id)
+  .single();
+
+// If profile fetch fails, show welcome screen as safe fallback
+if (profileError) {
+  console.error("Profile fetch error:", profileError);
+}
+
+// Redirect already onboarded users to main app
+if (profile?.has_seen_welcome) {
+  return Astro.redirect("/");
+}
+---
+
+<WelcomeLayout>
+  <WelcomeCard client:load />
+</WelcomeLayout>
