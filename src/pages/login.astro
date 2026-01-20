@@ -1,0 +1,26 @@
+---
+import LoginLayout from '../layouts/LoginLayout.astro';
+import { LoginCard } from '../components/auth/LoginCard';
+
+// Check if user is already authenticated
+const { data: { session } } = await Astro.locals.supabase.auth.getSession();
+
+// Redirect to main app if already logged in
+if (session) {
+  return Astro.redirect('/');
+}
+
+// Get error code from URL query parameter (if redirected after failed auth)
+const errorCode = Astro.url.searchParams.get('error') ?? undefined;
+
+// Build the OAuth callback URL
+const redirectUrl = new URL('/auth/callback', Astro.url.origin).toString();
+---
+
+<LoginLayout>
+  <LoginCard
+    client:load
+    redirectUrl={redirectUrl}
+    errorCode={errorCode}
+  />
+</LoginLayout>
