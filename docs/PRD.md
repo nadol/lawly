@@ -10,7 +10,7 @@ Lawly to wewnętrzne narzędzie dla zespołu sprzedażowego, które automatyzuje
 
 ### 1.3 Grupa docelowa
 - Zespół sprzedażowy (1-10 użytkowników dziennie)
-- Użytkownicy wewnętrzni firmy z dostępem do Google Workspace
+- Użytkownicy z dowolnym kontem Google (brak ograniczeń domenowych)
 
 ### 1.4 Główna wartość biznesowa
 - Redukcja czasu potrzebnego na przygotowanie dokumentu SOW
@@ -52,7 +52,7 @@ System self-service, który pozwoli zespołowi sprzedażowemu samodzielnie przej
 
 3.1.1 Logowanie przez Google SSO
 - Integracja z Google OAuth 2.0
-- Autoryzacja użytkowników z określonej domeny firmowej
+- ~~Autoryzacja użytkowników z określonej domeny firmowej~~ → Każdy użytkownik z kontem Google może się zalogować
 - Automatyczne tworzenie profilu użytkownika przy pierwszym logowaniu
 - Zarządzanie sesją użytkownika przez Supabase Auth
 
@@ -255,7 +255,7 @@ sessions
 4.2.1 Założenia techniczne
 - Użytkownicy mają dostęp do nowoczesnej przeglądarki (Chrome, Firefox, Safari, Edge)
 - Użytkownicy mają stałe połączenie internetowe
-- Firma używa Google Workspace lub użytkownicy mają konta Google
+- Użytkownicy mają konto Google (dowolne, bez ograniczeń domenowych)
 - Treść pytań i fragmentów będzie dostarczona przez zespół legal przed wdrożeniem
 
 4.2.2 Ograniczenia skali

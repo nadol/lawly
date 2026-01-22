@@ -36,7 +36,7 @@ Lawly enables sales teams to:
 
 ### Key Features
 
-- **Google SSO Authentication** - Secure login using company Google Workspace accounts
+- **Google SSO Authentication** - Secure login using any Google account
 - **Linear Question Wizard** - 5 single-select questions in sequential order
 - **Automatic Fragment Generation** - 1:1 mapping of answers to SOW fragments
 - **Copy to Clipboard** - One-click copying of generated fragments
@@ -48,7 +48,7 @@ Lawly enables sales teams to:
 
 - Internal company sales team
 - 1-10 daily active users
-- Users with Google Workspace access
+- Users with any Google account (no domain restriction)
 
 ## Tech Stack
 
@@ -89,7 +89,6 @@ Before you begin, ensure you have the following installed:
 You'll also need:
 - A **Supabase account** and project
 - **Google OAuth 2.0 credentials** for authentication
-- Access to the company's **Google Workspace**
 
 ## Getting Started
 

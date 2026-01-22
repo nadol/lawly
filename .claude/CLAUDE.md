@@ -8,7 +8,7 @@ Lawly is an internal tool for the sales team that automates SOW (Statement of Wo
 
 **MVP Deadline:** February 1, 2026 (approximately 7 working days)
 
-**Target Users:** Internal company sales team (1-10 daily users) with Google Workspace access
+**Target Users:** Internal company sales team (1-10 daily users) with any Google account (no domain restriction)
 
 ## Tech Stack
 

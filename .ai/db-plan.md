@@ -218,5 +218,6 @@ Migracje realizowane za pomoca Supabase CLI w folderze `supabase/migrations/`:
 
 7. **Nierozwiazane kwestie**:
    - Tresc pytan i fragmentow SOW — wymaga dostarczenia przez zespol legal (placeholdery w seed migration).
-   - Restrykcja domeny Google OAuth — konfigurowana w ustawieniach Supabase Auth, nie w schemacie bazy.
    - Wymuszenie `completed_at` — na poziomie aplikacji, nie bazy danych (zachowanie elastycznosci nullable).
+
+   > **Uwaga:** Brak restrykcji domenowej — kazdy uzytkownik z kontem Google moze sie zalogowac (zmiana wzgledem PRD 3.1.1).
