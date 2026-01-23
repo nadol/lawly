@@ -71,3 +71,35 @@ export interface UseLoginReturn {
   /** Function to clear error state */
   clearError: () => void;
 }
+
+/**
+ * Error state for logout operations
+ */
+export interface LogoutError {
+  /** Error message to display to user */
+  message: string;
+  /** Original error code from Supabase (for logging) */
+  code?: string;
+}
+
+/**
+ * Return type for useLogout hook
+ */
+export interface UseLogoutReturn {
+  /** Whether logout is in progress */
+  isLoading: boolean;
+  /** Current error state */
+  error: LogoutError | null;
+  /** Function to initiate logout */
+  handleLogout: () => Promise<void>;
+}
+
+/**
+ * Props for LogoutButton component
+ */
+export interface LogoutButtonProps {
+  /** Optional CSS class name */
+  className?: string;
+  /** Optional disabled state */
+  disabled?: boolean;
+}
