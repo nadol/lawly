@@ -9,7 +9,7 @@ const PUBLIC_PATHS = ['/login', '/auth/callback'];
 // Cookie options for Supabase auth
 const cookieOptions: CookieOptions = {
   path: '/',
-  secure: true,
+  secure: import.meta.env.PROD,
   httpOnly: true,
   sameSite: 'lax',
 };

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { createBrowserClient } from '@supabase/ssr';
 
 import type { LogoutError, UseLogoutReturn } from '../auth/types';
 
@@ -19,7 +19,13 @@ export function useLogout(): UseLogoutReturn {
     setError(null);
 
     try {
-      const supabase = createClient(supabaseUrl, supabaseAnonKey);
+      const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey, {
+        cookieOptions: {
+          path: '/',
+          sameSite: 'lax',
+          secure: import.meta.env.PROD,
+        },
+      });
       const { error: signOutError } = await supabase.auth.signOut();
 
       if (signOutError) {

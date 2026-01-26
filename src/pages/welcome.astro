@@ -23,7 +23,7 @@ if (authError || !user) {
 const { data: profile, error: profileError } = await Astro.locals.supabase
   .from("profiles")
   .select("has_seen_welcome")
-  .eq("user_id", user.id)
+  .eq("id", user.id)
   .single();
 
 // If profile fetch fails, show welcome screen as safe fallback

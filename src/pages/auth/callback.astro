@@ -1,54 +1,16 @@
 ---
-/**
- * OAuth callback handler that processes the authentication result.
- * Exchanges the auth code for a session and redirects based on user profile status.
- */
-
-// Get the auth code from URL query parameter
 const code = Astro.url.searchParams.get('code');
-const errorFromProvider = Astro.url.searchParams.get('error');
 
-// Handle error from OAuth provider (e.g., user cancelled)
-if (errorFromProvider) {
-  return Astro.redirect(`/login?error=${encodeURIComponent(errorFromProvider)}`);
-}
-
-// Validate presence of auth code
 if (!code) {
-  return Astro.redirect('/login?error=missing_code');
+  return Astro.redirect('/login?error=oauth');
 }
 
-// Exchange the code for a session
-const { data: sessionData, error: sessionError } = await Astro.locals.supabase.auth.exchangeCodeForSession(code);
+const { error } = await Astro.locals.supabase.auth.exchangeCodeForSession(code);
 
-if (sessionError || !sessionData.session) {
-  console.error('Session exchange error:', sessionError);
-  return Astro.redirect('/login?error=auth_failed');
+if (error) {
+  console.error('OAuth callback error:', error);
+  return Astro.redirect('/login?error=oauth');
 }
 
-// Fetch user profile to check has_seen_welcome status
-try {
-  const { data: profile, error: profileError } = await Astro.locals.supabase
-    .from('profiles')
-    .select('has_seen_welcome')
-    .eq('user_id', sessionData.session.user.id)
-    .single();
-
-  if (profileError) {
-    console.error('Profile fetch error:', profileError);
-    // Default to welcome screen if profile fetch fails (safe fallback)
-    return Astro.redirect('/welcome');
-  }
-
-  // Redirect based on profile status
-  if (profile?.has_seen_welcome) {
-    return Astro.redirect('/');
-  } else {
-    return Astro.redirect('/welcome');
-  }
-} catch (error) {
-  console.error('Unexpected error during profile check:', error);
-  // Default to welcome screen on any error
-  return Astro.redirect('/welcome');
-}
+return Astro.redirect('/welcome');
 ---
