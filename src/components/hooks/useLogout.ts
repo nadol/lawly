@@ -1,14 +1,10 @@
 import { useState, useCallback } from 'react';
-import { createBrowserClient } from '@supabase/ssr';
 
 import type { LogoutError, UseLogoutReturn } from '../auth/types';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_KEY;
-
 /**
  * Custom hook for managing the logout flow.
- * Handles loading state, error state, and Supabase signOut.
+ * Handles loading state, error state, and calls server-side logout endpoint.
  */
 export function useLogout(): UseLogoutReturn {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,20 +15,19 @@ export function useLogout(): UseLogoutReturn {
     setError(null);
 
     try {
-      const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey, {
-        cookieOptions: {
-          path: '/',
-          sameSite: 'lax',
-          secure: import.meta.env.PROD,
+      // Call server-side logout endpoint to clear httpOnly cookies
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
       });
-      const { error: signOutError } = await supabase.auth.signOut();
 
-      if (signOutError) {
-        console.error('Logout error:', signOutError);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Logout error:', errorData);
         setError({
           message: 'Nie udało się wylogować. Spróbuj ponownie.',
-          code: signOutError.code,
         });
         setIsLoading(false);
         return;

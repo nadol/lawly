@@ -1,8 +1,51 @@
 ---
-import Welcome from "../components/Welcome.astro";
-import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
+import { MainNav } from "../components/nav";
+import { DashboardContent } from "../components/dashboard";
+import { getProfileByUserId } from "../lib/services/profile.service";
+
+// Auth check
+const { data: { user }, error: authError } =
+  await Astro.locals.supabase.auth.getUser();
+
+if (authError || !user) {
+  return Astro.redirect('/login');
+}
+
+const userEmail = user.email ?? null;
+
+// Fetch profile to check welcome state
+let initialHasSeenWelcome = false;
+try {
+  const profile = await getProfileByUserId(Astro.locals.supabase, user.id);
+  if (profile) {
+    initialHasSeenWelcome = profile.has_seen_welcome;
+  }
+} catch (error) {
+  console.warn('Failed to fetch profile, defaulting to show welcome:', error);
+  // Default to false (show welcome) on error for better UX
+  initialHasSeenWelcome = false;
+}
 ---
 
-<Layout>
-  <Welcome />
-</Layout>
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Lawly - Automatyczne generowanie fragmentów SOW" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Lawly - Dashboard</title>
+  </head>
+  <body class="min-h-screen bg-background">
+    <header class="h-16 border-b">
+      <MainNav client:load userEmail={userEmail} />
+    </header>
+
+    <DashboardContent
+      client:load
+      initialHasSeenWelcome={initialHasSeenWelcome}
+    />
+  </body>
+</html>

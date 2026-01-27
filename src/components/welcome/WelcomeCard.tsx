@@ -4,12 +4,27 @@ import { SkipLink } from "./SkipLink";
 import { WelcomeDescription } from "./WelcomeDescription";
 import { WelcomeHeading } from "./WelcomeHeading";
 
+export interface WelcomeCardProps {
+  /** Optional callback for start session action. If not provided, uses internal hook. */
+  onStartSession?: () => Promise<void>;
+  /** Optional callback for skip action. If not provided, uses internal hook. */
+  onSkip?: () => Promise<void>;
+  /** Optional loading state override. If not provided, uses internal hook state. */
+  isLoading?: boolean;
+}
+
 /**
  * Main React component containing the welcome UI.
  * Orchestrates the onboarding flow, manages API calls, and handles navigation.
+ * Can be used standalone or controlled via props.
  */
-export function WelcomeCard() {
-  const { isLoading, error, handleStartSession, handleSkip } = useWelcome();
+export function WelcomeCard({ onStartSession, onSkip, isLoading: externalLoading }: WelcomeCardProps = {}) {
+  const { isLoading: internalLoading, error, handleStartSession, handleSkip } = useWelcome();
+
+  // Use provided callbacks or fall back to internal hook
+  const startSession = onStartSession || handleStartSession;
+  const skip = onSkip || handleSkip;
+  const isLoading = externalLoading !== undefined ? externalLoading : internalLoading;
 
   return (
     <div className="w-full max-w-md rounded-xl border bg-card p-8 shadow-lg">
@@ -18,8 +33,8 @@ export function WelcomeCard() {
         <WelcomeDescription />
 
         <div className="flex w-full flex-col items-center gap-4 pt-2">
-          <CTAButton onStartSession={handleStartSession} isLoading={isLoading} />
-          <SkipLink onSkip={handleSkip} isLoading={isLoading} />
+          <CTAButton onStartSession={startSession} isLoading={isLoading} />
+          <SkipLink onSkip={skip} isLoading={isLoading} />
         </div>
 
         {error && (
