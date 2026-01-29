@@ -3,7 +3,7 @@
  * These types define props for UI components and the return type for useWizard hook.
  */
 
-import type { QuestionOption, QuestionResponse } from '../../types';
+import type { QuestionOption, QuestionResponse, SessionDetailResponse } from '../../types';
 
 // =============================================================================
 // ViewModel Types
@@ -95,6 +95,7 @@ export interface UseWizardReturn {
   isLoading: boolean;
   isSubmitting: boolean;
   error: string | null;
+  completedSession: SessionDetailResponse | null;
   selectAnswer: (answerId: string) => void;
   goToNext: () => Promise<void>;
   retry: () => void;

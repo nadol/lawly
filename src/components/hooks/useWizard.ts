@@ -22,6 +22,7 @@ export function useWizard(): UseWizardReturn {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [completedSession, setCompletedSession] = useState<SessionDetailResponse | null>(null);
 
   // Derived state
   const currentQuestion = questions[currentQuestionIndex] ?? null;
@@ -110,7 +111,7 @@ export function useWizard(): UseWizardReturn {
       }
 
       const session: SessionDetailResponse = await response.json();
-      window.location.assign(`/sessions/${session.id}`);
+      setCompletedSession(session);
     } catch (err) {
       console.error('Session submission error:', err);
       setError(
@@ -165,6 +166,7 @@ export function useWizard(): UseWizardReturn {
     isLoading,
     isSubmitting,
     error,
+    completedSession,
     selectAnswer,
     goToNext,
     retry,

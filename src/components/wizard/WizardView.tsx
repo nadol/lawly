@@ -2,6 +2,7 @@ import { useWizard } from '../hooks/useWizard';
 import { WizardSkeleton } from './WizardSkeleton';
 import { WizardError } from './WizardError';
 import { WizardContent } from './WizardContent';
+import { FragmentResultsView } from '../results';
 
 /**
  * Root container component for the wizard.
@@ -17,10 +18,16 @@ export function WizardView() {
     isLoading,
     isSubmitting,
     error,
+    completedSession,
     selectAnswer,
     goToNext,
     retry,
   } = useWizard();
+
+  // If session is completed, show results view
+  if (completedSession) {
+    return <FragmentResultsView session={completedSession} />;
+  }
 
   if (isLoading) {
     return <WizardSkeleton />;
