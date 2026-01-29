@@ -1,0 +1,46 @@
+---
+import "../styles/global.css";
+import { MainNav } from "../components/nav";
+import { SessionsSidebar } from "../components/dashboard";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "Lawly" } = Astro.props;
+
+// Auth check
+const { data: { user }, error: authError } =
+  await Astro.locals.supabase.auth.getUser();
+
+if (authError || !user) {
+  return Astro.redirect('/login');
+}
+
+const userEmail = user.email ?? null;
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Lawly - Automatyczne generowanie fragmentów SOW" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-background">
+    <header class="h-16 border-b">
+      <MainNav client:load userEmail={userEmail} />
+    </header>
+
+    <div class="flex">
+      <SessionsSidebar client:load />
+      
+      <main class="flex-1 h-[calc(100vh-64px)] overflow-y-auto">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>

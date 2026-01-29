@@ -3,7 +3,9 @@
  */
 
 export { DashboardContent } from './DashboardContent';
+export { DashboardMain } from './DashboardMain';
 export { Sidebar } from './Sidebar';
+export { SessionsSidebar } from './SessionsSidebar';
 export { MainContent } from './MainContent';
 export { WelcomeOverlay } from './WelcomeOverlay';
 export { SessionList } from './SessionList';

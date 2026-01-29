@@ -1,0 +1,15 @@
+---
+import DashboardLayout from '@/layouts/DashboardLayout.astro';
+import { SessionDetailsView } from '@/components/session-details';
+
+const { id } = Astro.params;
+
+// Validate that ID parameter exists
+if (!id) {
+  return Astro.redirect('/');
+}
+---
+
+<DashboardLayout title="Szczegóły sesji - Lawly">
+  <SessionDetailsView client:load sessionId={id} />
+</DashboardLayout>

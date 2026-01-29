@@ -1,10 +1,10 @@
 ---
-import AuthLayout from "../layouts/AuthLayout.astro";
+import DashboardLayout from "../layouts/DashboardLayout.astro";
 import { WizardView } from "../components/wizard";
 
 export const prerender = false;
 ---
 
-<AuthLayout title="Kreator SOW - Lawly">
+<DashboardLayout title="Kreator SOW - Lawly">
   <WizardView client:load />
-</AuthLayout>
+</DashboardLayout>
