@@ -15,6 +15,7 @@ export function Sidebar({
   error,
   onLoadMore,
   onRetry,
+  activeSessionId,
 }: SidebarProps) {
   return (
     <aside
@@ -34,6 +35,7 @@ export function Sidebar({
           isLoading={isLoading}
           error={error}
           onRetry={onRetry}
+          activeSessionId={activeSessionId}
         />
       </nav>
 

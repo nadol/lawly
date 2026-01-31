@@ -13,6 +13,7 @@ export function SessionList({
   isLoading,
   error,
   onRetry,
+  activeSessionId,
 }: SessionListProps) {
   if (isLoading) {
     return <SessionListSkeleton />;
@@ -40,7 +41,11 @@ export function SessionList({
   return (
     <ul role="list" className="space-y-1 p-2">
       {sessions.map((session) => (
-        <SessionCard key={session.id} session={session} />
+        <SessionCard
+          key={session.id}
+          session={session}
+          isActive={session.id === activeSessionId}
+        />
       ))}
     </ul>
   );

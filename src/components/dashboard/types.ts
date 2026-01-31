@@ -74,6 +74,8 @@ export interface SidebarProps {
   error: string | null;
   onLoadMore: () => void;
   onRetry: () => void;
+  /** Currently active session ID (if on a session detail page) */
+  activeSessionId?: string | null;
 }
 
 /**
@@ -84,6 +86,8 @@ export interface SessionListProps {
   isLoading: boolean;
   error: string | null;
   onRetry: () => void;
+  /** Currently active session ID (if on a session detail page) */
+  activeSessionId?: string | null;
 }
 
 /**
@@ -91,6 +95,8 @@ export interface SessionListProps {
  */
 export interface SessionCardProps {
   session: SessionCardViewModel;
+  /** Whether this session is currently active/selected */
+  isActive?: boolean;
 }
 
 /**

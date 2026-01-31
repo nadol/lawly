@@ -35,7 +35,7 @@ export function SessionDetailsError({ message, onNavigateBack }: SessionDetailsE
 
         {/* Back Button */}
         <Button onClick={onNavigateBack} variant="default">
-          Wróć do panelu głównego
+          Zamknij
         </Button>
       </div>
     </div>
