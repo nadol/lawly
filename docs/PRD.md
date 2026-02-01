@@ -21,7 +21,9 @@ Lawly to wewnętrzne narzędzie dla zespołu sprzedażowego, które automatyzuje
 ### 1.5 Stack technologiczny
 - Frontend: Astro 5, React 19, TypeScript 5, Tailwind 4, Shadcn/ui
 - Backend: Supabase (PostgreSQL, Authentication, BaaS)
-- CI/CD: GitHub Actions (automatyczne uruchamianie testów przy każdym push)
+- Testing: Vitest, Playwright, Testing Library, MSW, jsdom
+- CI/CD: GitHub Actions (automatyczne testy przy każdym PR do main)
+- Deployment: Vercel
 
 ### 1.6 Timeline
 - Deadline MVP: 1 lutego 2026
@@ -576,7 +578,7 @@ Aplikacja uznana za ukończoną gdy spełnia następujące kryteria:
 - [x] Wszystkie krytyczne user stories (US-001 do US-021) zaimplementowane
 - [x] Welcome screen dla nowych użytkowników
 - [x] Row Level Security skonfigurowane w Supabase
-- [ ] Brak known critical bugs
+- [x] Brak known critical bugs
 
 ### Data DoD:
 - [x] Struktura tabel w PostgreSQL utworzona
