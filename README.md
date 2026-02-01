@@ -70,11 +70,12 @@ Lawly enables sales teams to:
 - **[Vitest](https://vitest.dev/)** - Fast unit test framework
 - **[Testing Library](https://testing-library.com/)** - React component testing
 - **[Playwright](https://playwright.dev/)** - Cross-browser E2E testing
-- **[MSW (Mock Service Worker)](https://mswjs.io/)** - API mocking for integration tests
-- **[axe-core](https://github.com/dequelabs/axe-core)** - Automated accessibility testing
+- **[MSW (Mock Service Worker)](https://mswjs.io/)** - API mocking for tests
+- **[jsdom](https://github.com/jsdom/jsdom)** - DOM implementation for Node.js testing
 
-### CI/CD
-- **[GitHub Actions](https://github.com/features/actions)** - Automated testing on every push (pipeline to be configured)
+### CI/CD & Deployment
+- **[GitHub Actions](https://github.com/features/actions)** - Automated testing on pull requests
+- **[Vercel](https://vercel.com/)** - Production deployment platform
 
 ### Development Tools
 - **Node.js 22.14.0** - JavaScript runtime
@@ -169,9 +170,14 @@ npm run preview
 | `npm run dev` | Start Astro development server with hot reload |
 | `npm run build` | Build the project for production |
 | `npm run preview` | Preview the production build locally |
-| `npm run test` | Run unit and integration tests with Vitest |
-| `npm run test:e2e` | Run end-to-end tests with Playwright |
+| `npm run test` | Run unit tests with Vitest |
+| `npm run test:watch` | Run unit tests in watch mode |
+| `npm run test:ui` | Open Vitest UI for interactive testing |
 | `npm run test:coverage` | Generate test coverage report |
+| `npm run test:e2e` | Run end-to-end tests with Playwright |
+| `npm run test:e2e:ui` | Run E2E tests with Playwright UI |
+| `npm run test:e2e:debug` | Debug E2E tests with Playwright |
+| `npm run test:all` | Run all tests (unit + E2E) |
 | `npm run lint` | Run ESLint to check code quality |
 | `npm run lint:fix` | Automatically fix ESLint issues |
 | `npm run format` | Format code with Prettier |
@@ -266,8 +272,8 @@ The following requirements are mandatory for MVP completion:
 | **Data management** (CRUD operations) | ✅ Done | Sessions can be created, read; RLS configured |
 | **Business logic** (with or without AI) | ✅ Done | Fragment generation based on wizard answers |
 | **PRD and context documents** | ✅ Done | PRD, MVP_CONCEPT, TECH_STACK available in `docs/` |
-| **Tests** (at least one user-perspective test) | ✅ Done | Unit tests implemented in Vitest |
-| **CI/CD pipeline** (build + run tests) | ❌ Pending | GitHub Actions workflow to be configured |
+| **Tests** (at least one user-perspective test) | ✅ Done | 175 unit tests implemented with Vitest |
+| **CI/CD pipeline** (build + run tests) | ✅ Done | GitHub Actions workflow configured |
 
 ### Definition of Done
 
@@ -283,7 +289,7 @@ The MVP is considered complete when:
 - ✅ Critical user stories (US-001 to US-021) implemented
 - ✅ Welcome screen for new users
 - ✅ Row Level Security configured
-- ⬜ No known critical bugs
+- ✅ No known critical bugs
 
 **Data Requirements:**
 - ✅ Database schema created
