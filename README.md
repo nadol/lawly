@@ -66,6 +66,13 @@ Lawly enables sales teams to:
   - BaaS - Backend as a Service with auto-generated APIs
   - Row Level Security - Data isolation per user
 
+### Testing
+- **[Vitest](https://vitest.dev/)** - Fast unit test framework
+- **[Testing Library](https://testing-library.com/)** - React component testing
+- **[Playwright](https://playwright.dev/)** - Cross-browser E2E testing
+- **[MSW (Mock Service Worker)](https://mswjs.io/)** - API mocking for integration tests
+- **[axe-core](https://github.com/dequelabs/axe-core)** - Automated accessibility testing
+
 ### CI/CD & Deployment
 - **[GitHub Actions](https://github.com/features/actions)** - Automated testing on every push
 - **[Vercel](https://vercel.com/)** - Zero-config deployment with preview environments
@@ -164,6 +171,9 @@ npm run preview
 | `npm run dev` | Start Astro development server with hot reload |
 | `npm run build` | Build the project for production |
 | `npm run preview` | Preview the production build locally |
+| `npm run test` | Run unit and integration tests with Vitest |
+| `npm run test:e2e` | Run end-to-end tests with Playwright |
+| `npm run test:coverage` | Generate test coverage report |
 | `npm run lint` | Run ESLint to check code quality |
 | `npm run lint:fix` | Automatically fix ESLint issues |
 | `npm run format` | Format code with Prettier |

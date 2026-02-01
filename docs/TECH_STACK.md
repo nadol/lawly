@@ -13,11 +13,43 @@
   - Authentication - Google SSO + session management
   - BaaS (Backend as a Service) - Row Level Security, API auto-generated
 
+## Testing
+
+### Unit Tests
+- **Vitest** - Fast unit test framework z Vite
+  - Testy schematów walidacji Zod
+  - Testy funkcji serwisowych
+  - Testy custom hooks React
+- **Testing Library** - Testy komponentów React
+  - `@testing-library/react` - Renderowanie i testowanie komponentów
+  - `@testing-library/user-event` - Symulacja interakcji użytkownika
+
+### Integration Tests
+- **Vitest** - Framework dla testów integracyjnych
+- **MSW (Mock Service Worker)** - Mockowanie API endpoints
+  - Testy API routes (`/api/profile`, `/api/questions`, `/api/sessions`)
+  - Weryfikacja integracji z Supabase
+  - Testy Row Level Security (RLS) policies
+
+### E2E Tests
+- **Playwright** - Cross-browser end-to-end testing
+  - Testy pełnych user flows (logowanie, wizard, historia)
+  - Testy bezpieczeństwa i autoryzacji
+  - Visual regression testing (screenshots)
+- **axe-core** - Automatyczne testy dostępności (WCAG 2.1 AA)
+
+### Coverage
+- **Vitest Coverage (c8/istanbul)** - Raporty pokrycia kodu
+  - Cel: ≥80% dla kodu biznesowego
+  - Cel: ≥70% dla API endpoints
+
 ## CI/CD
 - **GitHub Actions** - Automatyczne uruchamianie testów przy każdym push
-  - Testy unit/integration/e2e
+  - Unit tests (Vitest)
+  - Integration tests (Vitest + MSW)
+  - E2E tests (Playwright) - tylko na PR
   - TypeScript compilation check
-  - Linting
+  - Linting (ESLint)
 
 ## Hosting & Deployment
 - **Vercel** - Automatyczny deployment po przejściu testów
