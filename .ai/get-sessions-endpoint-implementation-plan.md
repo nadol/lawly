@@ -451,20 +451,20 @@ Przetestować endpoint za pomocą narzędzia HTTP (curl, Postman, lub przegląda
 
 ```bash
 # Test bez autoryzacji (oczekiwany 401)
-curl -X GET http://localhost:4321/api/sessions
+curl -X GET http://localhost:3000/api/sessions
 
 # Test z autoryzacją (po zalogowaniu się w aplikacji)
 # - domyślne parametry
-curl -X GET http://localhost:4321/api/sessions --cookie "..." 
+curl -X GET http://localhost:3000/api/sessions --cookie "..." 
 
 # - z limit i offset
-curl -X GET "http://localhost:4321/api/sessions?limit=5&offset=0" --cookie "..."
+curl -X GET "http://localhost:3000/api/sessions?limit=5&offset=0" --cookie "..."
 
 # - nieprawidłowy limit (oczekiwany 400)
-curl -X GET "http://localhost:4321/api/sessions?limit=100" --cookie "..."
+curl -X GET "http://localhost:3000/api/sessions?limit=100" --cookie "..."
 
 # - nieprawidłowy offset (oczekiwany 400)
-curl -X GET "http://localhost:4321/api/sessions?offset=-1" --cookie "..."
+curl -X GET "http://localhost:3000/api/sessions?offset=-1" --cookie "..."
 ```
 
 ### Krok 6: Dokumentacja

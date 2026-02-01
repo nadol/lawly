@@ -224,7 +224,7 @@ Lawly to wewnętrzne narzędzie webowe umożliwiające:
 
 | Środowisko | Przeznaczenie | URL | Baza danych |
 |------------|---------------|-----|-------------|
-| Lokalne (Development) | Testy manualne, unit, integracyjne | `localhost:4321` | Supabase Local (Docker) |
+| Lokalne (Development) | Testy manualne, unit, integracyjne | `localhost:3000` | Supabase Local (Docker) |
 | Preview (Vercel) | Testy E2E przed merge | PR preview URL | Supabase Staging |
 | Produkcja | Smoke tests po deploy | `lawly.vercel.app` | Supabase Production |
 

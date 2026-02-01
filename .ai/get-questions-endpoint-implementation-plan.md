@@ -309,7 +309,7 @@ CREATE POLICY "Authenticated users can read questions"
 
 1. **Test bez autoryzacji:**
    ```bash
-   curl -X GET http://localhost:4321/api/questions
+   curl -X GET http://localhost:3000/api/questions
    # Oczekiwany rezultat: 401 {"error": "Unauthorized"}
    ```
 

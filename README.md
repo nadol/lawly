@@ -73,10 +73,8 @@ Lawly enables sales teams to:
 - **[MSW (Mock Service Worker)](https://mswjs.io/)** - API mocking for integration tests
 - **[axe-core](https://github.com/dequelabs/axe-core)** - Automated accessibility testing
 
-### CI/CD & Deployment
-- **[GitHub Actions](https://github.com/features/actions)** - Automated testing on every push
-- **[Vercel](https://vercel.com/)** - Zero-config deployment with preview environments
-- **[Vercel Analytics](https://vercel.com/analytics)** - Built-in performance monitoring
+### CI/CD
+- **[GitHub Actions](https://github.com/features/actions)** - Automated testing on every push (pipeline to be configured)
 
 ### Development Tools
 - **Node.js 22.14.0** - JavaScript runtime
@@ -155,9 +153,9 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 npm run dev
 ```
 
-The application will be available at `http://localhost:4321`
+The application will be available at `http://localhost:3000`
 
-### 7. Build for Production
+### 7. Build
 
 ```bash
 npm run build
@@ -251,30 +249,41 @@ npm run preview
 - Automated reporting dashboard
 - Advanced analytics
 - Custom branding
-- Staging environment (use Vercel preview deployments)
 
 ## Project Status
 
 **Current Status:** MVP in Active Development
 
-**MVP Deadline:** February 1, 2026 (approximately 7 working days)
+**MVP Deadline:** February 1, 2026
+
+### MVP Requirements
+
+The following requirements are mandatory for MVP completion:
+
+| Requirement | Status | Notes |
+|-------------|--------|-------|
+| **User access control** (login screen) | ✅ Done | Google SSO authentication implemented |
+| **Data management** (CRUD operations) | ✅ Done | Sessions can be created, read; RLS configured |
+| **Business logic** (with or without AI) | ✅ Done | Fragment generation based on wizard answers |
+| **PRD and context documents** | ✅ Done | PRD, MVP_CONCEPT, TECH_STACK available in `docs/` |
+| **Tests** (at least one user-perspective test) | ✅ Done | Unit tests implemented in Vitest |
+| **CI/CD pipeline** (build + run tests) | ❌ Pending | GitHub Actions workflow to be configured |
 
 ### Definition of Done
 
 The MVP is considered complete when:
 
 **Technical Requirements:**
-- ✅ Deployed to Vercel production
 - ✅ Google SSO functional
 - ✅ End-to-end flow works (Login → Wizard → Generation → Copy → History)
 - ✅ At least one passing test
-- ✅ Automatic deployment via Vercel
+- ⬜ CI/CD pipeline configured (GitHub Actions)
 
 **Quality Requirements:**
-- ✅ Critical user stories (US-001 to US-016) implemented
+- ✅ Critical user stories (US-001 to US-021) implemented
 - ✅ Welcome screen for new users
 - ✅ Row Level Security configured
-- ✅ No known critical bugs
+- ⬜ No known critical bugs
 
 **Data Requirements:**
 - ✅ Database schema created
@@ -286,14 +295,15 @@ The MVP is considered complete when:
 Additional documentation is available in the `docs/` directory:
 
 - **[MVP Concept](docs/MVP_CONCEPT.md)** - Core problem definition and MVP scope
-- **[Product Requirements Document](docs/PRD.md)** - Complete PRD with 27 user stories
+- **[Product Requirements Document](docs/PRD.md)** - Complete PRD with user stories (US-001 to US-027)
 - **[Tech Stack Details](docs/TECH_STACK.md)** - Technology stack overview
 
 ### Project Memory
 
-For AI-assisted development, see the Claude Code memory files:
+For AI-assisted development, see the memory files:
 - `.claude/CLAUDE.md` - Main project context and guidelines
 - `.claude/rules/` - Modular development rules
+- `.cursor/rules/` - Cursor IDE rules
 
 ## Contributing
 

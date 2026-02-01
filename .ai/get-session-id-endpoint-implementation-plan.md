@@ -431,10 +431,10 @@ Upewnić się, że istnieje katalog `src/pages/api/sessions/` dla pliku `[id].ts
 
 | Scenariusz | Metoda testowania |
 |------------|-------------------|
-| Poprawne żądanie | `curl -b cookies.txt http://localhost:4321/api/sessions/{valid-uuid}` |
-| Nieprawidłowy UUID | `curl http://localhost:4321/api/sessions/invalid-id` → 400 |
-| Brak autoryzacji | `curl http://localhost:4321/api/sessions/{uuid}` (bez cookies) → 401 |
-| Nieistniejąca sesja | `curl -b cookies.txt http://localhost:4321/api/sessions/{random-uuid}` → 404 |
+| Poprawne żądanie | `curl -b cookies.txt http://localhost:3000/api/sessions/{valid-uuid}` |
+| Nieprawidłowy UUID | `curl http://localhost:3000/api/sessions/invalid-id` → 400 |
+| Brak autoryzacji | `curl http://localhost:3000/api/sessions/{uuid}` (bez cookies) → 401 |
+| Nieistniejąca sesja | `curl -b cookies.txt http://localhost:3000/api/sessions/{random-uuid}` → 404 |
 | Cudza sesja | Zaloguj jako user A, odpytaj sesję user B → 404 (RLS) |
 
 ### Krok 6: Aktualizacja eksportów (opcjonalnie)

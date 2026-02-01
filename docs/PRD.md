@@ -22,7 +22,6 @@ Lawly to wewnętrzne narzędzie dla zespołu sprzedażowego, które automatyzuje
 - Frontend: Astro 5, React 19, TypeScript 5, Tailwind 4, Shadcn/ui
 - Backend: Supabase (PostgreSQL, Authentication, BaaS)
 - CI/CD: GitHub Actions (automatyczne uruchamianie testów przy każdym push)
-- Hosting: Vercel (automatyczny deployment po przejściu testów)
 
 ### 1.6 Timeline
 - Deadline MVP: 1 lutego 2026
@@ -184,10 +183,8 @@ sessions
 - Brak możliwości przejścia dalej bez wyboru odpowiedzi
 
 3.6.3 Monitoring
-- Basic monitoring przez Vercel Analytics i Supabase
-- Logi aplikacji dostępne w Vercel Dashboard
+- Basic monitoring przez Supabase
 - Logi bazy danych dostępne w Supabase dashboard
-- Automatyczny monitoring performance i error tracking przez Vercel
 
 ## 4. Granice produktu
 
@@ -240,10 +237,10 @@ sessions
 - Wizualizacje danych
 
 4.1.8 Infrastruktura
-- Środowisko staging/testowe (Vercel oferuje preview deployments, ale nie dedykowane staging)
-- Advanced error handling i monitoring (podstawowe przez Vercel Analytics wystarczy)
+- Środowisko staging/testowe
+- Advanced error handling i monitoring
 - Automatyczne backupy (poza tymi oferowanymi przez Supabase)
-- Custom logging i alerting (podstawowe logi Vercel wystarczą)
+- Custom logging i alerting
 
 4.1.9 Personalizacja
 - Zaawansowana personalizacja dokumentów
@@ -550,33 +547,42 @@ US-027: Nieautoryzowany dostęp do sesji innego użytkownika
 
 Aplikacja uznana za ukończoną gdy spełnia następujące kryteria:
 
-Technical DoD:
-- [ ] Aplikacja deployed na Vercel (produkcja)
-- [ ] Google SSO działa poprawnie
-- [ ] Pełny user flow działa end-to-end:
-  - [ ] Logowanie przez Google
-  - [ ] Przejście przez 5 pytań (wizard)
-  - [ ] Generowanie fragmentów SOW
-  - [ ] Kopiowanie fragmentów
-  - [ ] Przeglądanie historii sesji
-- [ ] Implementacja funkcji z logiką biznesową (generowanie fragmentów)
-- [ ] Implementacja funkcji CRUD (zarządzanie sesjami)
-- [ ] Co najmniej jeden działający test (unit lub e2e)
-- [ ] Automatyczny deployment przez Vercel (każdy push do main = production deploy)
+### Wymagania obowiązkowe projektu
+
+| Wymaganie | Status |
+|-----------|--------|
+| Mechanizm kontroli dostępu użytkownika (ekran logowania) | ✅ Done |
+| Zarządzanie danymi - CRUD | ✅ Done |
+| Logika biznesowa (z AI lub bez) | ✅ Done |
+| PRD i inne dokumenty kontekstowe | ✅ Done |
+| Testy - co najmniej jeden test z perspektywy użytkownika | ✅ Done |
+| Pipeline CI/CD (budowanie i uruchamianie testów) | ⬜ Pending |
+
+### Technical DoD:
+- [x] Google SSO działa poprawnie
+- [x] Pełny user flow działa end-to-end:
+  - [x] Logowanie przez Google
+  - [x] Przejście przez 5 pytań (wizard)
+  - [x] Generowanie fragmentów SOW
+  - [x] Kopiowanie fragmentów
+  - [x] Przeglądanie historii sesji
+- [x] Implementacja funkcji z logiką biznesową (generowanie fragmentów)
+- [x] Implementacja funkcji CRUD (zarządzanie sesjami)
+- [x] Co najmniej jeden działający test (unit lub e2e)
+- [ ] Pipeline CI/CD skonfigurowany (GitHub Actions)
 - [ ] Testy manualne przeprowadzone i udokumentowane
 
-Quality DoD:
-- [ ] Wszystkie krytyczne user stories (US-001 do US-016) zaimplementowane
-- [ ] Welcome screen dla nowych użytkowników
-- [ ] Row Level Security skonfigurowane w Supabase
+### Quality DoD:
+- [x] Wszystkie krytyczne user stories (US-001 do US-021) zaimplementowane
+- [x] Welcome screen dla nowych użytkowników
+- [x] Row Level Security skonfigurowane w Supabase
 - [ ] Brak known critical bugs
 
-Data DoD:
-- [ ] Struktura tabel w PostgreSQL utworzona
-- [ ] Przykładowe 5 pytań z odpowiedziami i fragmentami w bazie
-- [ ] RLS policies aktywne
+### Data DoD:
+- [x] Struktura tabel w PostgreSQL utworzona
+- [x] Przykładowe 5 pytań z odpowiedziami i fragmentami w bazie
+- [x] RLS policies aktywne
 
-Documentation DoD:
-- [ ] README z instrukcją uruchomienia lokalnego
-- [ ] Dokumentacja deployment na Vercel (konfiguracja environment variables)
-- [ ] Dokumentacja konfiguracji Google OAuth
+### Documentation DoD:
+- [x] README z instrukcją uruchomienia lokalnego
+- [x] Dokumentacja konfiguracji Google OAuth
