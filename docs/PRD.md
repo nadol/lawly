@@ -556,7 +556,7 @@ Aplikacja uznana za ukończoną gdy spełnia następujące kryteria:
 | Logika biznesowa (z AI lub bez) | ✅ Done |
 | PRD i inne dokumenty kontekstowe | ✅ Done |
 | Testy - co najmniej jeden test z perspektywy użytkownika | ✅ Done |
-| Pipeline CI/CD (budowanie i uruchamianie testów) | ⬜ Pending |
+| Pipeline CI/CD (budowanie i uruchamianie testów) | ✅ Done |
 
 ### Technical DoD:
 - [x] Google SSO działa poprawnie
@@ -568,8 +568,8 @@ Aplikacja uznana za ukończoną gdy spełnia następujące kryteria:
   - [x] Przeglądanie historii sesji
 - [x] Implementacja funkcji z logiką biznesową (generowanie fragmentów)
 - [x] Implementacja funkcji CRUD (zarządzanie sesjami)
-- [x] Co najmniej jeden działający test (unit lub e2e)
-- [ ] Pipeline CI/CD skonfigurowany (GitHub Actions)
+- [x] Co najmniej jeden działający test (unit lub e2e) - 175 unit tests passing
+- [x] Pipeline CI/CD skonfigurowany (GitHub Actions)
 - [ ] Testy manualne przeprowadzone i udokumentowane
 
 ### Quality DoD:

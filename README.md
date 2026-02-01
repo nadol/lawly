@@ -276,8 +276,8 @@ The MVP is considered complete when:
 **Technical Requirements:**
 - ✅ Google SSO functional
 - ✅ End-to-end flow works (Login → Wizard → Generation → Copy → History)
-- ✅ At least one passing test
-- ⬜ CI/CD pipeline configured (GitHub Actions)
+- ✅ At least one passing test (175 unit tests + E2E setup)
+- ✅ CI/CD pipeline configured (GitHub Actions)
 
 **Quality Requirements:**
 - ✅ Critical user stories (US-001 to US-021) implemented
